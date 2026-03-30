@@ -63,7 +63,8 @@ def login():
 
     Returns:
         200: JWT généré
-        400: Payload ou identifiants invalides
+        400: Payload invalide
+        401: Identifiants invalides
     """
     payload = request.get_json() or {}
     email = (payload.get('email') or '').lower()
@@ -79,7 +80,7 @@ def login():
     if not user or not user.check_password(password=password):
         return error(
             "Identifiants invalides",
-            400
+            401
         )
     token = create_access_token(identity=str(
         user.id), additional_claims={"role": user.role.value})
