@@ -46,7 +46,7 @@ def test_login_invalid_password(client, registered_user):
         "email": "test@test.com",
         "password": "another-password",
     })
-    assert response.status_code == 400
+    assert response.status_code == 401
 
 
 def test_login_invalid_payload(client, registered_user):
