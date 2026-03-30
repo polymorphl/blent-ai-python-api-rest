@@ -1,7 +1,5 @@
 from flask import Blueprint, request
-from ..models import User, Role
-from ..extensions import db
-from flask_jwt_extended import create_access_token
+from ..controllers import auth as auth_controller
 from ..lib.response import success, error
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -22,34 +20,8 @@ def register():
         201: Utilisateur créé avec succès
         400: Champs manquants ou email déjà utilisé
     """
-    payload = request.get_json() or {}
-    email = (payload.get('email') or '').lower()
-    password = payload.get('password') or ''
-    name = payload.get('name') or ''
-    role = Role.CLIENT
-
-    if not email or not password or not name:
-        return error(
-            "'email', 'name', 'password' sont obligatoires.",
-            400
-        )
-
-    if User.find_one(email):
-        return error(
-            "Un utilisateur existe déjà avec cet email.",
-            400
-        )
-
-    user = User(email=email, nom=name, role=role)
-    user.set_password(password)
-
-    db.session.add(user)
-    db.session.commit()
-
-    return success(
-        {"message": "Utilisateur créé avec succès"},
-        201
-    )
+    data, status = auth_controller.register_user(request.get_json() or {})
+    return (success(data, status) if status < 400 else error(data["error"], status))
 
 
 @auth_bp.route('/login', methods=['POST'])
@@ -66,23 +38,5 @@ def login():
         400: Payload invalide
         401: Identifiants invalides
     """
-    payload = request.get_json() or {}
-    email = (payload.get('email') or '').lower()
-    password = payload.get('password') or ''
-
-    if not email or not password:
-        return error(
-            "'email', 'password' sont obligatoires.",
-            400
-        )
-
-    user = User.find_one(email)
-    if not user or not user.check_password(password=password):
-        return error(
-            "Identifiants invalides",
-            401
-        )
-    token = create_access_token(identity=str(
-        user.id), additional_claims={"role": user.role.value})
-
-    return success({"access_token": token}, 200)
+    data, status = auth_controller.login_user(request.get_json() or {})
+    return (success(data, status) if status < 400 else error(data["error"], status))
