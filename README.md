@@ -19,9 +19,26 @@ Une API REST utilisant le framework Flask, SQLAlchemy pour l'ORM et une base de 
 
 # Utilisation
 
-Pour démarrer le serveur Flask, on utilisera cette commande : `flask --app src run`
+3. Initialiser la base de données et créer le compte administrateur :
+
+```bash
+python seed.py
+```
+
+> `seed.py` crée les tables (`db.create_all()`) puis insère l'admin. Il est idempotent : sans effet si l'admin existe déjà.
+
+Identifiants administrateur créés :
+- **Email** : `admin@digimarket.com`
+- **Mot de passe** : `admin1234`
+
+4. Démarrer le serveur :
+
+```bash
+flask --app src run
+```
 
 ## Tests
+
 Pour lancer les tests :
 
 ```bash
@@ -29,6 +46,14 @@ pytest
 ```
 
 # Routes API
+
+L'API suit une architecture **MVC** via les Blueprints Flask :
+
+| Couche | Dossier | Rôle |
+|---|---|---|
+| **Model** | `src/models.py` | Définition des entités et accès aux données (SQLAlchemy) |
+| **View** | `src/routes/` | Réception des requêtes HTTP, retour des réponses JSON |
+| **Controller** | `src/controllers/` | Logique métier, validation |
 
 ## Auth
 - POST - `/api/auth/register`
