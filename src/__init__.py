@@ -3,6 +3,7 @@ from .config import Config
 from .extensions import db, bcrypt, jwt
 from .routes.auth import auth_bp
 from .routes.products import products_bp
+from .routes.orders import orders_bp
 
 
 def create_app(config=None):
@@ -19,11 +20,12 @@ def create_app(config=None):
     jwt.init_app(app)
 
     with app.app_context():
-        from .models import User, Product  # noqa: F401
+        from .models import User, Product, Order, OrderLine  # noqa: F401
         db.create_all()
 
     # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(products_bp)
+    app.register_blueprint(orders_bp)
 
     return app

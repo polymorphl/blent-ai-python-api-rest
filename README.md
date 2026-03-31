@@ -65,3 +65,10 @@ L'API suit une architecture **MVC** via les Blueprints Flask :
 - POST - `/api/produits` — Crée un produit *(admin requis)*
 - PUT - `/api/produits/<id>` — Met à jour un produit *(admin requis)*
 - DELETE - `/api/produits/<id>` — Supprime un produit *(admin requis)*
+
+### Commandes
+- GET - `/api/commandes` — Liste les commandes *(admin : toutes ; client : les siennes)*
+- GET - `/api/commandes/<id>` — Retourne une commande par son id
+- POST - `/api/commandes` — Crée une commande pour l'utilisateur connecté
+- PATCH - `/api/commandes/<id>` — Met à jour le statut d'une commande *(admin requis)*
+- GET - `/api/commandes/<id>/lignes` — Retourne les lignes d'une commande
