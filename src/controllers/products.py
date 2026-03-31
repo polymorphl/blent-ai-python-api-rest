@@ -19,7 +19,8 @@ def get_all_products(search: str | None) -> tuple[dict, int]:
         products = Product.query.filter(
             db.or_(
                 Product.nom.ilike(f"%{search}%"),
-                Product.categorie.ilike(f"%{search}%")
+                Product.categorie.ilike(f"%{search}%"),
+                Product.description.ilike(f"%{search}%")
             )
         ).all()
     else:

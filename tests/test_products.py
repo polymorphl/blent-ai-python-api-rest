@@ -28,6 +28,11 @@ class TestListProducts:
         assert response.status_code == 200
         assert len(response.get_json()["products"]) == 1
 
+    def test_search_by_description(self, client, sample_product):
+        response = client.get('/api/produits?search=switches')
+        assert response.status_code == 200
+        assert len(response.get_json()["products"]) == 1
+
     def test_search_no_match(self, client, sample_product):
         response = client.get('/api/produits?search=zzz_introuvable')
         assert response.status_code == 200
