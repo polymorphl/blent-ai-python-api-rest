@@ -8,7 +8,7 @@ Une API REST utilisant le framework Flask, SQLAlchemy pour l'ORM et une base de 
 
 - `cd blent-ai-python-api-rest`
 - `python3 -m venv venv`
-- `python3 venv/bin/activate`
+- `source venv/bin/activate`
 
 1. Lancer la commande suivante pour récupérer les dépendances du projet : `pip3 install -r requirements.txt`
 
