@@ -102,4 +102,4 @@ class OrderLine(db.Model):
     quantite = db.Column(db.Integer, nullable=False)
     prix_unitaire = db.Column(db.Float, nullable=False)
 
-    produit = db.relationship('Product')
+    product = db.relationship('Product')
