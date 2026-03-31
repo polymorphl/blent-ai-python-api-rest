@@ -58,3 +58,10 @@ L'API suit une architecture **MVC** via les Blueprints Flask :
 ## Auth
 - POST - `/api/auth/register`
 - POST - `/api/auth/login`
+
+## Produits
+- GET - `/api/produits` — Liste tous les produits (param optionnel : `?search=`)
+- GET - `/api/produits/<id>` — Retourne un produit par son id
+- POST - `/api/produits` — Crée un produit *(admin requis)*
+- PUT - `/api/produits/<id>` — Met à jour un produit *(admin requis)*
+- DELETE - `/api/produits/<id>` — Supprime un produit *(admin requis)*
