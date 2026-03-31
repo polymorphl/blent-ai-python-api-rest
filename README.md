@@ -183,7 +183,7 @@ Crée un nouveau produit.
 
 ---
 
-#### `PATCH /api/produits/<id>` *(admin)*
+#### `PUT /api/produits/<id>` *(admin)*
 
 Met à jour un ou plusieurs champs d'un produit existant.
 

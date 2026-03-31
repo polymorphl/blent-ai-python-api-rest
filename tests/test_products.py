@@ -140,7 +140,10 @@ class TestCreateProduct:
 
 class TestUpdateProduct:
     def test_no_token(self, client, sample_product):
-        response = client.put(f'/api/produits/{sample_product}', json={"prix": 99})
+        response = client.put(
+            f'/api/produits/{sample_product}',
+            json={"prix": 99}
+        )
         assert response.status_code == 401
 
     def test_client_forbidden(self, client, sample_product, client_token):
