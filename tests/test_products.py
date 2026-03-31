@@ -135,39 +135,40 @@ class TestCreateProduct:
 
 
 # ---------------------------------------------------------------------------
-# PUT /api/produits/<id>
+# PATCH /api/produits/<id>
 # ---------------------------------------------------------------------------
 
 class TestUpdateProduct:
     def test_no_token(self, client, sample_product):
-        response = client.put(f'/api/produits/{sample_product}', json={"prix": 99})
+        response = client.patch(
+            f'/api/produits/{sample_product}', json={"prix": 99})
         assert response.status_code == 401
 
     def test_client_forbidden(self, client, sample_product, client_token):
-        response = client.put(f'/api/produits/{sample_product}',
-                              json={"prix": 99},
-                              headers=auth_headers(client_token))
+        response = client.patch(f'/api/produits/{sample_product}',
+                                json={"prix": 99},
+                                headers=auth_headers(client_token))
         assert response.status_code == 403
 
     def test_admin_ok(self, client, sample_product, admin_token):
-        response = client.put(f'/api/produits/{sample_product}',
-                              json={"prix": 99.00, "quantite_stock": 5},
-                              headers=auth_headers(admin_token))
+        response = client.patch(f'/api/produits/{sample_product}',
+                                json={"prix": 99.00, "quantite_stock": 5},
+                                headers=auth_headers(admin_token))
         assert response.status_code == 200
         data = response.get_json()
         assert data["prix"] == 99.00
         assert data["quantite_stock"] == 5
 
     def test_not_found(self, client, admin_token):
-        response = client.put('/api/produits/9999',
-                              json={"prix": 99},
-                              headers=auth_headers(admin_token))
+        response = client.patch('/api/produits/9999',
+                                json={"prix": 99},
+                                headers=auth_headers(admin_token))
         assert response.status_code == 404
 
     def test_invalid_prix(self, client, sample_product, admin_token):
-        response = client.put(f'/api/produits/{sample_product}',
-                              json={"prix": 0},
-                              headers=auth_headers(admin_token))
+        response = client.patch(f'/api/produits/{sample_product}',
+                                json={"prix": 0},
+                                headers=auth_headers(admin_token))
         assert response.status_code == 400
 
 

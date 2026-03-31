@@ -32,7 +32,7 @@ def create_product():
     return success(data, status) if status < 400 else error(data["error"], status)  # noqa: E501
 
 
-@products_bp.route('/<int:id>', methods=['PUT'])
+@products_bp.route('/<int:id>', methods=['PATCH'])
 @admin_required
 def update_product(id):
     """
