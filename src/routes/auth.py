@@ -7,36 +7,13 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
-    """
-    Inscription d'un nouvel utilisateur.
-
-    Body JSON:
-        email (str): Email unique de l'utilisateur
-        password (str): Mot de passe
-        name (str): Nom de l'utilisateur
-        role (str): Role de l'utilisateur
-
-    Returns:
-        201: Utilisateur créé avec succès
-        400: Champs manquants ou email déjà utilisé
-    """
+    """Inscription d'un nouvel utilisateur."""
     data, status = auth_controller.register_user(request.get_json() or {})
-    return (success(data, status) if status < 400 else error(data["error"], status))
+    return (success(data, status) if status < 400 else error(data["error"], status))  # noqa: E501
 
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    """
-    Connexion d'un utilisateur.
-
-    Body JSON:
-        email (str): Email unique de l'utilisateur
-        password (str): Mot de passe
-
-    Returns:
-        200: JWT généré
-        400: Payload invalide
-        401: Identifiants invalides
-    """
+    """Connexion d'un utilisateur."""
     data, status = auth_controller.login_user(request.get_json() or {})
-    return (success(data, status) if status < 400 else error(data["error"], status))
+    return (success(data, status) if status < 400 else error(data["error"], status))  # noqa: E501
