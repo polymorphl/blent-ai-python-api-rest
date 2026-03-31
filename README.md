@@ -19,17 +19,49 @@ Une API REST utilisant le framework Flask, SQLAlchemy pour l'ORM et une base de 
 
 ## Utilisation
 
-3. Initialiser la base de données et créer le compte administrateur :
+3. Initialiser la base de données et créer les données de départ :
 
 ```bash
 python seed.py
 ```
 
-> `seed.py` crée les tables (`db.create_all()`) puis insère l'admin. Il est idempotent : sans effet si l'admin existe déjà.
+`seed.py` est **idempotent** : chaque bloc vérifie l'existence des données avant de les insérer. Relancer le script plusieurs fois ne crée pas de doublons.
 
-Identifiants administrateur créés :
-- **Email** : `admin@digimarket.com`
-- **Mot de passe** : `admin1234`
+Il effectue les opérations suivantes dans l'ordre :
+
+**1. Création des tables**
+Appel de `db.create_all()` — sans effet si les tables existent déjà.
+
+**2. Compte administrateur**
+| Champ | Valeur |
+|---|---|
+| Email | `admin@digimarket.com` |
+| Mot de passe | `admin1234` |
+| Rôle | `admin` |
+
+**3. Compte client de test**
+| Champ | Valeur |
+|---|---|
+| Email | `client@digimarket.com` |
+| Mot de passe | `client1234` |
+| Rôle | `client` |
+
+**4. Catalogue de produits** (inséré uniquement si la table est vide)
+
+| Nom | Catégorie | Prix | Stock |
+|---|---|---|---|
+| Clavier mécanique Cherry MX | Périphériques | 89,99 € | 15 |
+| Souris gaming Logitech G502 | Périphériques | 59,99 € | 20 |
+| SSD Samsung 1 To | Stockage | 129,99 € | 10 |
+| RAM DDR5 32 Go | Mémoire | 149,99 € | 8 |
+| Écran 27 pouces 4K | Écrans | 349,99 € | 5 |
+| Carte graphique RTX 4060 | Composants | 399,99 € | 3 |
+
+**5. Commande de test**
+Une commande au statut `validée` est créée pour le client de test, avec deux lignes :
+- 1× Clavier mécanique Cherry MX
+- 2× SSD Samsung 1 To
+
 
 4. Démarrer le serveur :
 
