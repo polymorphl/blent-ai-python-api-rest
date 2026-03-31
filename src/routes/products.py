@@ -8,7 +8,10 @@ products_bp = Blueprint('products', __name__, url_prefix='/api/produits')
 
 @products_bp.route('', methods=['GET'])
 def list_products():
-    """Retourne la liste de tous les produits, avec filtrage optionnel par recherche textuelle."""
+    """
+    Retourne la liste de tous les produits, avec filtrage optionnel 
+    par recherche textuelle.
+    """
     search = request.args.get('search', '').strip() or None
     data, status = products_controller.get_all_products(search)
     return success(data, status) if status < 400 else error(data["error"], status)  # noqa: E501
@@ -32,7 +35,10 @@ def create_product():
 @products_bp.route('/<int:id>', methods=['PUT'])
 @admin_required
 def update_product(id):
-    """Met à jour un produit existant par son identifiant. Réservé aux administrateurs."""
+    """
+    Met à jour un produit existant par son identifiant.
+    Réservé aux administrateurs.
+    """
     payload = request.get_json() or {}
     data, status = products_controller.update_product(id, payload)
     return success(data, status) if status < 400 else error(data["error"], status)  # noqa: E501
