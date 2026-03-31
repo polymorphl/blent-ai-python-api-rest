@@ -4,6 +4,18 @@ from ..models import Role
 from .response import error
 
 
+def login_required(fn):
+    # Vérifie que le token JWT est valide
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            verify_jwt_in_request()
+        except Exception:
+            return error("Token manquant ou invalide.", 401)
+        return fn(*args, **kwargs)
+    return wrapper
+
+
 def admin_required(fn):
     # Vérifie que le token JWT est valide et que l'utilisateur est admin
     @wraps(fn)
