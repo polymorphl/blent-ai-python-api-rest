@@ -17,7 +17,7 @@ Une API REST utilisant le framework Flask, SQLAlchemy pour l'ORM et une base de 
 - `cp .env.example .env`
 - Remplir les valeurs dans le fichier `.env`
 
-# Utilisation
+## Utilisation
 
 3. Initialiser la base de données et créer le compte administrateur :
 
@@ -45,7 +45,7 @@ Pour lancer les tests :
 pytest
 ```
 
-# Routes API
+## Routes API
 
 L'API suit une architecture **MVC** via les Blueprints Flask :
 
@@ -55,11 +55,11 @@ L'API suit une architecture **MVC** via les Blueprints Flask :
 | **View** | `src/routes/` | Réception des requêtes HTTP, retour des réponses JSON |
 | **Controller** | `src/controllers/` | Logique métier, validation |
 
-## Auth
+### Auth
 - POST - `/api/auth/register`
 - POST - `/api/auth/login`
 
-## Produits
+### Produits
 - GET - `/api/produits` — Liste tous les produits (param optionnel : `?search=`)
 - GET - `/api/produits/<id>` — Retourne un produit par son id
 - POST - `/api/produits` — Crée un produit *(admin requis)*
